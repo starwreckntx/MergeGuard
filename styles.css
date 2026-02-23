@@ -1,0 +1,365 @@
+/* PAIS GitHub Extension Styles */
+
+/* Modal Overlay */
+.pais-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Base Modal */
+.pais-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 520px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: pais-modal-appear 0.2s ease-out;
+}
+
+@keyframes pais-modal-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Tier-specific styles */
+.pais-tier3 {
+  border-top: 4px solid #d1242f;
+}
+
+.pais-tier2 {
+  border-top: 4px solid #f0883e;
+}
+
+/* Modal Header */
+.pais-modal-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.pais-modal-header h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #24292e;
+}
+
+.pais-subtitle {
+  margin: 0;
+  color: #586069;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Modal Body */
+.pais-modal-body {
+  padding: 20px 24px;
+}
+
+/* Checklist */
+.pais-checklist {
+  margin-bottom: 20px;
+}
+
+.pais-checklist-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #24292e;
+  font-size: 14px;
+}
+
+.pais-checklist-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #24292e;
+}
+
+.pais-checklist-item:hover {
+  color: #0366d6;
+}
+
+.pais-checklist-item input[type="checkbox"] {
+  margin-right: 10px;
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.pais-checklist-item span {
+  line-height: 1.4;
+}
+
+/* Confirmation input */
+.pais-confirmation {
+  background: #fff5f5;
+  border: 1px solid #ffc9c9;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.pais-confirmation label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #24292e;
+}
+
+.pais-confirmation input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  text-transform: uppercase;
+  box-sizing: border-box;
+}
+
+.pais-confirmation input:focus {
+  outline: none;
+  border-color: #0366d6;
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
+}
+
+/* Modal Footer */
+.pais-modal-footer {
+  padding: 16px 24px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid #e1e4e8;
+}
+
+/* Buttons */
+.pais-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.pais-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+}
+
+.pais-btn-primary {
+  background: #2ea44f;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: white;
+  box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.pais-btn-primary:hover:not(:disabled) {
+  background: #2c974b;
+}
+
+.pais-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #94d3a2;
+}
+
+.pais-btn-secondary {
+  background: #fafbfc;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #24292e;
+  box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.pais-btn-secondary:hover {
+  background: #f3f4f6;
+}
+
+.pais-btn-danger {
+  background: #d1242f;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: white;
+}
+
+.pais-btn-danger:hover {
+  background: #be222e;
+}
+
+/* Tier-2 specific */
+.pais-prompt {
+  margin-bottom: 16px;
+}
+
+.pais-prompt label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #24292e;
+}
+
+.pais-prompt textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.pais-prompt textarea:focus {
+  outline: none;
+  border-color: #0366d6;
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
+}
+
+.pais-override {
+  background: transparent;
+  border: none;
+  color: #586069;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.pais-override:hover {
+  color: #0366d6;
+}
+
+/* Tier-1 Banner */
+.pais-banner {
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  animation: pais-banner-appear 0.3s ease-out;
+}
+
+@keyframes pais-banner-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pais-tier1 {
+  background: #fff8e6;
+  border: 1px solid #ffd33d;
+}
+
+.pais-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.pais-banner .pais-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.pais-banner .pais-message {
+  flex: 1;
+  font-size: 14px;
+  color: #24292e;
+}
+
+.pais-banner-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pais-banner button {
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: #24292e;
+}
+
+.pais-banner button:hover {
+  background: #f6f8fa;
+}
+
+.pais-banner button.pais-proceed {
+  background: transparent;
+  border: none;
+  color: #0366d6;
+  text-decoration: underline;
+}
+
+.pais-banner button.pais-proceed:hover {
+  color: #005cc5;
+}
+
+/* Dismiss button for banner */
+.pais-banner-dismiss {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #6a737d;
+  padding: 0 4px;
+  margin-left: auto;
+}
+
+.pais-banner-dismiss:hover {
+  color: #24292e;
+}
+
+/* Hidden state */
+.pais-hidden {
+  display: none !important;
+}
+
+/* Accessibility: Focus visible */
+.pais-modal *:focus-visible {
+  outline: 2px solid #0366d6;
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pais-modal,
+  .pais-banner {
+    animation: none;
+  }
+  
+  .pais-btn {
+    transition: none;
+  }
+}

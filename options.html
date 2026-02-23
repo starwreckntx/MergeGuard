@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAIS Guard Settings</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f6f8fa;
+      color: #24292e;
+      line-height: 1.5;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    header h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    header p {
+      color: #586069;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e1e4e8;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #d1d5da;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #0366d6;
+      box-shadow: 0 0 0 3px rgba(3,102,214,0.1);
+    }
+    
+    textarea {
+      resize: vertical;
+      min-height: 200px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .checkbox-group label {
+      margin: 0;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: #2ea44f;
+      border-color: rgba(27,31,35,0.15);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #2c974b;
+    }
+    
+    .btn-secondary {
+      background: #fafbfc;
+      border-color: rgba(27,31,35,0.15);
+      color: #24292e;
+    }
+    
+    .btn-secondary:hover {
+      background: #f3f4f6;
+    }
+    
+    .btn-danger {
+      background: #d1242f;
+      border-color: rgba(27,31,35,0.15);
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #be222e;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    
+    .status {
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-top: 16px;
+      display: none;
+    }
+    
+    .status.success {
+      display: block;
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+    
+    .status.error {
+      display: block;
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .stat-card {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: #0366d6;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: #586069;
+      margin-top: 4px;
+    }
+    
+    .event-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 12px;
+      background: #f6f8fa;
+    }
+    
+    .event-item {
+      padding: 8px;
+      border-bottom: 1px solid #e1e4e8;
+    }
+    
+    .event-item:last-child {
+      border-bottom: none;
+    }
+    
+    .event-time {
+      color: #6a737d;
+      font-size: 11px;
+    }
+    
+    .event-type {
+      font-weight: 600;
+      color: #0366d6;
+    }
+    
+    .help-text {
+      font-size: 12px;
+      color: #6a737d;
+      margin-top: 4px;
+    }
+    
+    .section-divider {
+      border: none;
+      border-top: 1px solid #e1e4e8;
+      margin: 24px 0;
+    }
+    
+    .danger-zone h3 {
+      color: #d1242f;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔒 PAIS Guard Settings</h1>
+      <p>Proactive AI Safety friction for GitHub PR merges</p>
+    </header>
+
+    <div class="card">
+      <h2>Status Overview</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-events">-</div>
+          <div class="stat-label">Events Logged</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-checkpoints">-</div>
+          <div class="stat-label">Checkpoints</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-nudges">-</div>
+          <div class="stat-label">Nudges Shown</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-policy">-</div>
+          <div class="stat-label">Policy Version</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Recent Events</h2>
+      <div class="btn-group">
+        <button class="btn btn-secondary" id="btn-refresh">Refresh</button>
+        <button class="btn btn-secondary" id="btn-export">Export Logs</button>
+        <button class="btn btn-danger" id="btn-clear">Clear Logs</button>
+      </div>
+      <div class="event-list" id="event-list">
+        <p style="text-align: center; color: #6a737d;">No events recorded yet</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Policy Configuration</h2>
+      <p class="help-text">Edit the JSON policy below to customize checkpoint detection, thresholds, and UI text.</p>
+      
+      <div class="form-group">
+        <label for="policy-editor">Policy JSON</label>
+        <textarea id="policy-editor" spellcheck="false"></textarea>
+      </div>
+      
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btn-save-policy">Save Policy</button>
+        <button class="btn btn-secondary" id="btn-reset-policy">Reset to Default</button>
+        <button class="btn btn-secondary" id="btn-validate">Validate</button>
+      </div>
+      
+      <div class="status" id="policy-status"></div>
+    </div>
+
+    <div class="card">
+      <h2>Nudge Settings</h2>
+      
+      <div class="form-group">
+        <div class="checkbox-group">
+          <input type="checkbox" id="enable-proactive" checked>
+          <label for="enable-proactive">Enable proactive nudges (on page load)</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="checkbox-group">
+          <input type="checkbox" id="enable-premerge" checked>
+          <label for="enable-premerge">Enable pre-merge nudges</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="cooldown-proactive">Proactive nudge cooldown (minutes)</label>
+        <input type="number" id="cooldown-proactive" value="10" min="1" max="60">
+      </div>
+      
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+      </div>
+      
+      <div class="status" id="settings-status"></div>
+    </div>
+
+    <div class="card danger-zone">
+      <h3>⚠️ Danger Zone</h3>
+      <p>These actions cannot be undone.</p>
+      
+      <div class="btn-group">
+        <button class="btn btn-danger" id="btn-clear-all">Clear All Data</button>
+        <button class="btn btn-danger" id="btn-reset-extension">Reset Extension</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

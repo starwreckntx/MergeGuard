@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub PAIS Guard",
+  "version": "1.0.0",
+  "description": "Proactive AI Safety (PAIS) friction for GitHub PR merges",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://github.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*/pull/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["policy.json"],
+      "matches": ["https://github.com/*"]
+    }
+  ]
+}

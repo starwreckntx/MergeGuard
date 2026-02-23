@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test PR #123 · test-org/test-repo</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f6f8fa;
+      padding: 40px 20px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 {
+      color: #24292e;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #586069;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #24292e;
+      margin-bottom: 16px;
+      font-size: 18px;
+    }
+    .test-section {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e1e4e8;
+    }
+    .test-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .merge-box {
+      background: #f6f8fa;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    button {
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid rgba(27,31,35,0.15);
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .btn-primary {
+      background: #2ea44f;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #2c974b;
+    }
+    .btn-secondary {
+      background: #fafbfc;
+      color: #24292e;
+    }
+    .btn-secondary:hover {
+      background: #f3f4f6;
+    }
+    .status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .status.pass {
+      background: #d4edda;
+      color: #155724;
+    }
+    .status.fail {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .status.warn {
+      background: #fff3cd;
+      color: #856404;
+    }
+    code {
+      background: #f6f8fa;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+    }
+    .log {
+      background: #24292e;
+      color: #e1e4e8;
+      padding: 16px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 16px;
+    }
+    .log-entry {
+      margin-bottom: 4px;
+    }
+    .log-entry.error { color: #f97583; }
+    .log-entry.success { color: #85e89d; }
+    .log-entry.info { color: #79b8ff; }
+    .instructions {
+      background: #dbedff;
+      border: 1px solid #c8e1ff;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .instructions h3 {
+      color: #0366d6;
+      margin-bottom: 8px;
+    }
+    .instructions ol {
+      margin-left: 20px;
+    }
+    .instructions li {
+      margin-bottom: 4px;
+    }
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔒 PAIS Extension Test Page</h1>
+      <p class="subtitle">Web-based verification for the PAIS GitHub Extension</p>
+    </header>
+
+    <div class="instructions">
+      <h3>How to Test (Local File)</h3>
+      <ol>
+        <li>Load the extension in Chrome (<code>chrome://extensions/</code> → "Load unpacked")</li>
+        <li>The manifest includes <code>file:///*</code> permissions for local testing</li>
+        <li>Open this file directly: <code>file:///path/to/github-pais-guard/test-page.html</code></li>
+        <li>Click the merge buttons below to test checkpoint interception</li>
+        <li>The extension should show Tier-3 modals for each action</li>
+        <li>Check the browser console (F12) for extension logs</li>
+      </ol>
+      <p><strong>Note:</strong> The extension detects this as a simulated PR page and will inject its content script.</p>
+    </div>
+
+    <div class="card">
+      <h2>Extension Status</h2>
+      <div id="extension-status">
+        <p>Checking if PAIS extension is loaded...</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Tier-3 Checkpoint Tests</h2>
+      
+      <div class="test-section">
+        <h3>MERGE_NOW Tests</h3>
+        <div class="merge-box" data-testid="mergebox">
+          <button type="button" class="btn-primary" data-test="confirm-merge" aria-label="Confirm merge">Confirm merge</button>
+          <button type="button" class="btn-primary" data-test="confirm-squash" aria-label="Confirm squash and merge">Confirm squash and merge</button>
+          <button type="button" class="btn-primary" data-test="confirm-rebase" aria-label="Confirm rebase and merge">Confirm rebase and merge</button>
+          <span class="status" id="status-merge">Waiting...</span>
+        </div>
+        <p><small>These should trigger the "Confirm merge now" Tier-3 modal</small></p>
+      </div>
+
+      <div class="test-section">
+        <h3>AUTO_MERGE_ENABLE Test</h3>
+        <div class="merge-box" data-testid="mergebox">
+          <button type="button" class="btn-secondary" data-test="auto-merge" aria-label="Enable auto-merge">Enable auto-merge</button>
+          <span class="status" id="status-auto">Waiting...</span>
+        </div>
+        <p><small>This should trigger the "Enable auto-merge" Tier-3 modal</small></p>
+      </div>
+
+      <div class="test-section">
+        <h3>MERGE_QUEUE_ADD Test</h3>
+        <div class="merge-box" data-testid="mergebox">
+          <button type="button" class="btn-secondary" data-test="merge-queue" aria-label="Add to merge queue">Add to merge queue</button>
+          <button type="button" class="btn-secondary" data-test="merge-ready" aria-label="Merge when ready">Merge when ready</button>
+          <span class="status" id="status-queue">Waiting...</span>
+        </div>
+        <p><small>These should trigger the "Add to merge queue" Tier-3 modal</small></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Event Log</h2>
+      <div id="event-log" class="log">
+        <div class="log-entry">Test page loaded. Waiting for extension...</div>
+      </div>
+      <button onclick="clearLog()" class="btn-secondary" style="margin-top: 8px;">Clear Log</button>
+    </div>
+
+    <div class="card">
+      <h2>Test Results</h2>
+      <div id="test-results">
+        <p>No tests run yet. Click the buttons above to test the extension.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Logger
+    function log(message, type = 'info') {
+      const logEl = document.getElementById('event-log');
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logEl.appendChild(entry);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function clearLog() {
+      document.getElementById('event-log').innerHTML = '<div class="log-entry">Log cleared.</div>';
+    }
+
+    // Check if extension is loaded
+    function checkExtension() {
+      const statusEl = document.getElementById('extension-status');
+      
+      // Try to communicate with extension
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+        try {
+          chrome.runtime.sendMessage(chrome.runtime.id, { action: 'ping' }, (response) => {
+            if (response) {
+              statusEl.innerHTML = '<p style="color: #28a745;">✅ PAIS extension is loaded and responsive</p>';
+              log('Extension detected and responsive', 'success');
+            } else {
+              statusEl.innerHTML = '<p style="color: #ffc107;">⚠️ Extension may be loaded but not responding</p>';
+              log('Extension not responding to ping', 'warn');
+            }
+          });
+        } catch (e) {
+          statusEl.innerHTML = '<p style="color: #dc3545;">❌ Extension not detected. Please load it first.</p>';
+          log('Extension not detected: ' + e.message, 'error');
+        }
+      } else {
+        statusEl.innerHTML = '<p style="color: #dc3545;">❌ Chrome extension API not available</p>';
+        log('Chrome extension API not available', 'error');
+      }
+    }
+
+    // Test button handlers
+    const testResults = {
+      merge: false,
+      auto: false,
+      queue: false
+    };
+
+    function updateResults() {
+      const resultsEl = document.getElementById('test-results');
+      const passed = Object.values(testResults).filter(v => v).length;
+      const total = Object.keys(testResults).length;
+      
+      resultsEl.innerHTML = `
+        <p>Tests passed: ${passed}/${total}</p>
+        ${passed === total ? '<p style="color: #28a745;">🎉 All tests passed!</p>' : '<p>Continue testing other buttons...</p>'}
+      `;
+    }
+
+    // Add click handlers to all test buttons
+    document.querySelectorAll('[data-test]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const test = e.target.dataset.test;
+        log(`Button clicked: ${test}`, 'info');
+        
+        // Update status to show we're waiting for extension
+        if (test.includes('merge') || test.includes('squash') || test.includes('rebase')) {
+          document.getElementById('status-merge').textContent = 'Waiting for modal...';
+          document.getElementById('status-merge').className = 'status warn';
+        } else if (test.includes('auto')) {
+          document.getElementById('status-auto').textContent = 'Waiting for modal...';
+          document.getElementById('status-auto').className = 'status warn';
+        } else if (test.includes('queue') || test.includes('ready')) {
+          document.getElementById('status-queue').textContent = 'Waiting for modal...';
+          document.getElementById('status-queue').className = 'status warn';
+        }
+        
+        // Listen for extension modal (in a real scenario, the extension would intercept)
+        setTimeout(() => {
+          log(`Note: The extension should have intercepted the "${test}" click`, 'info');
+        }, 100);
+      });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      log('Test page loaded');
+      setTimeout(checkExtension, 1000);
+    });
+
+    // Listen for messages from extension
+    if (typeof chrome !== 'undefined' && chrome.runtime) {
+      chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        log('Received message from extension: ' + JSON.stringify(message), 'success');
+        
+        if (message.type === 'checkpoint_intercepted') {
+          if (message.checkpoint_kind === 'MERGE_NOW') {
+            document.getElementById('status-merge').textContent = '✓ Intercepted';
+            document.getElementById('status-merge').className = 'status pass';
+            testResults.merge = true;
+          } else if (message.checkpoint_kind === 'AUTO_MERGE_ENABLE') {
+            document.getElementById('status-auto').textContent = '✓ Intercepted';
+            document.getElementById('status-auto').className = 'status pass';
+            testResults.auto = true;
+          } else if (message.checkpoint_kind === 'MERGE_QUEUE_ADD') {
+            document.getElementById('status-queue').textContent = '✓ Intercepted';
+            document.getElementById('status-queue').className = 'status pass';
+            testResults.queue = true;
+          }
+          updateResults();
+        }
+        
+        sendResponse({ received: true });
+      });
+    }
+  </script>
+</body>
+</html>

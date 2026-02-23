@@ -1,0 +1,122 @@
+{
+  "$schema": "./policy-schema.json",
+  "policy_version": "1.0.0",
+  "extension_min_version": "1.0.0",
+  
+  "checkpoint_matchers": {
+    "scope_selector": ".merge-box, [data-testid='mergebox'], .merge-message, .merge-branch-action, [data-testid='pr-merge-box']",
+    "kinds": {
+      "MERGE_NOW": {
+        "patterns": [
+          "^\\s*Confirm merge\\s*$",
+          "^\\s*Confirm squash and merge\\s*$",
+          "^\\s*Confirm rebase and merge\\s*$",
+          "^\\s*Merge pull request\\s*$",
+          "^\\s*Confirm merge\\s*\\(\\s*\\)\\s*$"
+        ],
+        "description": "Immediate merge confirmation buttons"
+      },
+      "AUTO_MERGE_ENABLE": {
+        "patterns": [
+          "^\\s*Enable auto-merge\\s*$",
+          "^\\s*Enable auto-merge\\s*\\(squash\\)\\s*$",
+          "^\\s*Enable auto-merge\\s*\\(rebase\\)\\s*$",
+          "^\\s*Enable auto-merge\\s*\\(merge commit\\)\\s*$",
+          "^\\s*Enable auto-merge\\s*\\(merge\\)\\s*$"
+        ],
+        "description": "Enable automatic merging when checks pass"
+      },
+      "MERGE_QUEUE_ADD": {
+        "patterns": [
+          "^\\s*Add to merge queue\\s*$",
+          "^\\s*Merge when ready\\s*$",
+          "^\\s*Queue for merging\\s*$",
+          "^\\s*Add to queue\\s*$",
+          "^\\s*Add pull request to queue\\s*$"
+        ],
+        "description": "Add PR to repository merge queue"
+      }
+    }
+  },
+  
+  "nudge_thresholds": {
+    "signals": {
+      "files_changed": 0.35,
+      "checks_viewed": 0.25,
+      "diff_time_target_ms": 60000,
+      "diff_time_max": 0.20,
+      "scroll_depth": 0.10,
+      "conversation_viewed": 0.10,
+      "min_time_before_merge_ms": 30000,
+      "early_merge_penalty": 0.25
+    },
+    "tier1_min": 0.70,
+    "tier2_min": 0.45
+  },
+  
+  "cooldowns": {
+    "proactive_nudge_ms": 600000,
+    "premerge_reset_after_review_ms": 300000,
+    "token_ttl_ms": 5000
+  },
+  
+  "ui_templates": {
+    "tier3": {
+      "MERGE_NOW": {
+        "title_template": "Confirm {method} now",
+        "subtitle_template": "This will merge into {base_branch} immediately.",
+        "checklist": [
+          "I visited \"Files changed\" and reviewed the diff.",
+          "I checked CI/status checks (or accept they may fail).",
+          "I can restate what this merges into and why now."
+        ],
+        "confirmation_text": "MERGE"
+      },
+      "AUTO_MERGE_ENABLE": {
+        "title": "Enable auto-merge",
+        "subtitle": "This will merge automatically when required checks pass.",
+        "checklist": [
+          "I understand this will merge later without another prompt.",
+          "I checked required checks are configured correctly for this repo.",
+          "I will monitor the result if checks change or fail."
+        ],
+        "confirmation_text": "MERGE"
+      },
+      "MERGE_QUEUE_ADD": {
+        "title": "Add to merge queue",
+        "subtitle": "This schedules a merge when queue rules allow.",
+        "checklist": [
+          "I understand this schedules a merge via the queue.",
+          "I checked this PR is ready for queue conditions (reviews/checks).",
+          "I will monitor the queue outcome / conflicts."
+        ],
+        "confirmation_text": "MERGE"
+      }
+    },
+    "tier2": {
+      "title": "Merge readiness check",
+      "prompt": "In one sentence: what are you merging and why now?"
+    },
+    "tier1": {
+      "message_template": "Quick merge check: you haven't viewed {items} yet."
+    }
+  },
+  
+  "logging": {
+    "ring_buffer_size": 1000,
+    "redaction_rules": [
+      { "field": "diff_text", "action": "omit" },
+      { "field": "comment_text", "action": "omit" },
+      { "field": "author", "action": "hash" },
+      { "field": "pr_title", "action": "truncate", "max_length": 50 }
+    ],
+    "retention_days": 30
+  },
+  
+  "privacy": {
+    "telemetry_enabled": false,
+    "local_logging_enabled": true,
+    "diff_content_capture": false,
+    "code_content_capture": false
+  }
+}
